@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: Naver Cloud Geocoding API
+  description: Converts addresses into geographic coordinates (latitude and longitude) using Naver Cloud Geocoding API.
+  version: 1.0.0
+servers:
+  - url: https://naveropenapi.apigw.ntruss.com/map-geocode/v2
+    description: Naver Cloud Geocoding API Server
+paths:
+  /geocode:
+    get:
+      operationId: geocodeAddress
+      summary: Converts an address to geographic coordinates.
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+          description: The address to geocode.
+      responses:
+        '200':
+          description: Successful response containing the geographic coordinates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  addresses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        roadAddress:
+                          type: string
+                        jibunAddress:
+                          type: string
+                        englishAddress:
+                          type: string
+                        x:
+                          type: string
+                          description: Longitude
+                        y:
+                          type: string
+                          description: Latitude
+security:
+  - ApiKeyAuth: []
+  - ApiKeySecret: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-NCP-APIGW-API-KEY-ID
+      description: Client ID for accessing Naver Cloud Geocoding API.
+    ApiKeySecret:
+      type: apiKey
+      in: header
+      name: X-NCP-APIGW-API-KEY
+      description: Client Secret for accessing Naver Cloud Geocoding API.
